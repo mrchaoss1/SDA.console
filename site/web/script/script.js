@@ -51,7 +51,7 @@ window.addEventListener("load", () => {
     const savedOutputText = localStorage.getItem("outputText");
     if (savedOutputText) {
       outputContainer.innerHTML = savedOutputText;
-      const outputHTML = `<div class="output-line history-loaded"><span>●</span> History Loaded!</div>`;
+      const outputHTML = `<div class="output-line history-loaded"><span>●</span> History Loaded!</div><p></p>`;
       outputContainer.innerHTML += outputHTML;
     }
 });

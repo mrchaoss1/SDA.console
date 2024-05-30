@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>SDA.console</title>
+  <link rel="stylesheet" href="/site/web/styles/styles.css">
+</head>
+
+<body>
+  <div id="console">
+    <div id="terminal">
+      <div id="terminal-content">
+        <span id="welcome-message">Welcome User!</span>
+        <p></p>
+        <span id="welcome-message">Use "/help" to get information</span>
+        <p></p>
+        <div id="output-container"></div>
+      </div>
+      <div id="input-container">
+        <span id="prompt">>>> </span>
+        <span id="user-input">user@hacknet:~$</span>
+        <input type="text" id="input" />
+        <div id="input-underline" style="width: 0%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/site/socket.io/socket.io.js"></script>
+  <script src="/site/web/script/script.js"></script>
+  <script src="/site/web/script/index.js"></script>
+</body>
+</html>
