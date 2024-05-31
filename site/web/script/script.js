@@ -1,57 +1,136 @@
 const inputField = document.getElementById("input");
 const outputContainer = document.getElementById("output-container");
 const inputUnderline = document.getElementById("input-underline");
-const historyLoaded = document.getElementById("history-loaded");
 
-inputField.addEventListener("input", (event) => {
-  const inputText = event.target.value;
-  const inputWidth = inputText.length * 10;
-  inputUnderline.style.width = `${inputWidth}px`;
-});
+const updateInputUnderline = (inputText) => {
+    const inputWidth = inputText.length * 10;
+    inputUnderline.style.width = `${inputWidth}px`;
+};
 
-inputField.addEventListener("keypress", (event) => {
-  if (event.key === "Enter") {
-    const inputText = event.target.value;
-    const inputArr = inputText.trim().split(" ");
-    const command = inputArr[0];
+const handleClearCommand = () => {
+    outputContainer.innerHTML = "";
+    localStorage.setItem("outputText", ""); // Update the saved output text
+};
 
-    if (command === "/clear") {
-      outputContainer.innerHTML = "";
-      localStorage.setItem("outputText", ""); // Update the saved output text
-      historyLoaded.innerHTML = ""; // Clear the history loaded message
-    } 
-    if (command === "/help") {
-      const outputHTML = `
-        <div class="output-line">
-          <span>user@hacknet:~$</span> Available commands:
-        </div>
-        <div class="output-line">
-          <span>user@hacknet:~$</span> - clear: Clears the console output
-        </div>
-        <div class="output-line">
-          <span>user@hacknet:~$</span> - help: Displays this help message
-        </div>`;
-      outputContainer.innerHTML += outputHTML;
-    } else {
-      const outputHTML = `<div class="output-line">>>> <span>user@hacknet:~$</span> ${inputText}</div>`;
-      outputContainer.innerHTML += outputHTML;
+const handleHelpCommand = () => {
+    const outputHTML = `
+        <div class="output-line">Available commands:</div>
+        <p></p>
+        <div class="output-line">- /clear: Clears the console output</div>
+        <div class="output-line">- /help: Displays this help message</div>
+        <div class="output-line">- /date: Displays the current date</div>
+        <div class="output-line">- /echo <text>: Repeats the provided text</div>
+    <p></p>`;
+    outputContainer.innerHTML += outputHTML;
+};
 
-      // Save the output text automatically
-      const savedOutputText = localStorage.getItem("outputText") || "";
-      localStorage.setItem("outputText", savedOutputText + outputHTML);
+const handleDateCommand = (username) => {
+    const currentDate = new Date().toLocaleString();
+    const outputHTML = `<div class="output-line">${username}@hacknet:~$ Current date and time: ${currentDate}</div>`;
+    outputContainer.innerHTML += outputHTML;
+
+    // Save the output text automatically
+    const savedOutputText = localStorage.getItem("outputText") || "";
+    localStorage.setItem("outputText", savedOutputText + outputHTML);
+};
+
+const handleEchoCommand = (text, username) => {
+    const outputHTML = `<div class="output-line">${username}@hacknet:~$ ${text}</div>`;
+    outputContainer.innerHTML += outputHTML;
+
+    // Save the output text automatically
+    const savedOutputText = localStorage.getItem("outputText") || "";
+    localStorage.setItem("outputText", savedOutputText + outputHTML);
+};
+
+const handleGeneralInput = (inputText, username) => {
+    const outputHTML = `<div class="output-line">${username}@hacknet:~$ ${inputText}</div>`;
+    outputContainer.innerHTML += outputHTML;
+
+    // Save the output text automatically
+    const savedOutputText = localStorage.getItem("outputText") || "";
+    localStorage.setItem("outputText", savedOutputText + outputHTML);
+};
+
+const retrieveSavedOutputText = () => {
+    const savedOutputText = localStorage.getItem("outputText");
+    if (savedOutputText) {
+        outputContainer.innerHTML = savedOutputText;
+        const outputHTML = `<div class="output-line history-loaded"><span>●</span> History Loaded!</div><p></p>`;
+        outputContainer.innerHTML += outputHTML;
+    }
+};
+
+const handleKeyPress = (event, username) => {
+    if (event.key === "Enter") {
+        const inputText = event.target.value.trim();
+        if (inputText === "") {
+            // Do nothing if the input is empty
+            return;
+        }
+
+        const inputArr = inputText.split(" ");
+        const command = inputArr[0];
+        const args = inputArr.slice(1).join(" ");
+
+        if (command === "/clear") {
+            handleClearCommand();
+        } else if (command === "/help") {
+            handleHelpCommand();
+        } else if (command === "/date") {
+            handleDateCommand(username);
+        } else if (command === "/echo") {
+            handleEchoCommand(args, username);
+        } else {
+            handleGeneralInput(inputText, username);
+        }
+
+        event.target.value = ""; // Clear the input field
+        inputUnderline.style.width = "0%"; // Reset underline width
+    }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+    const loginContainer = document.getElementById("login-container");
+    const loginInput = document.getElementById("login-input");
+    const loginButton = document.getElementById("login-button");
+    const terminal = document.getElementById("terminal");
+    const userInputSpan = document.getElementById("user-input");
+    const welcomeMessage = document.getElementById("welcome-message");
+
+    const handleLogin = () => {
+        const username = loginInput.value.trim();
+        if (username) {
+            // Save the username in localStorage
+            localStorage.setItem("username", username);
+
+            userInputSpan.textContent = `${username}@hacknet:~$`;
+            welcomeMessage.textContent = `Welcome ${username}!`;
+            loginContainer.style.display = "none";
+            terminal.style.display = "block";
+            inputField.addEventListener("input", (event) => {
+                updateInputUnderline(event.target.value);
+            });
+            inputField.addEventListener("keypress", (event) => {
+                handleKeyPress(event, username);
+            });
+        }
+    };
+
+    // Retrieve the saved username when the page loads
+    const savedUsername = localStorage.getItem("username");
+    if (savedUsername) {
+        loginInput.value = savedUsername;
+        handleLogin();
     }
 
-    event.target.value = "";
-    inputUnderline.style.width = "0%";
-  }
+    loginButton.addEventListener("click", handleLogin);
+    loginInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+            handleLogin();
+        }
+    });
 });
 
 // Retrieve the saved output text when the page is reloaded
-window.addEventListener("load", () => {
-    const savedOutputText = localStorage.getItem("outputText");
-    if (savedOutputText) {
-      outputContainer.innerHTML = savedOutputText;
-      const outputHTML = `<div class="output-line history-loaded"><span>●</span> History Loaded!</div><p></p>`;
-      outputContainer.innerHTML += outputHTML;
-    }
-});
+window.addEventListener("load", retrieveSavedOutputText);
