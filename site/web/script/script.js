@@ -20,13 +20,13 @@ const handleHelpCommand = () => {
         <div class="output-line">- /help: Displays this help message</div>
         <div class="output-line">- /date: Displays the current date</div>
         <div class="output-line">- /echo <text>: Repeats the provided text</div>
-    <p></p>`;
+        <p></p>`;
     outputContainer.innerHTML += outputHTML;
 };
 
 const handleDateCommand = (username) => {
     const currentDate = new Date().toLocaleString();
-    const outputHTML = `<div class="output-line">${username}@hacknet:~$ Current date and time: ${currentDate}</div>`;
+    const outputHTML = `<div class="output-line">Current date and time: ${currentDate}</div>`;
     outputContainer.innerHTML += outputHTML;
 
     // Save the output text automatically
@@ -35,7 +35,7 @@ const handleDateCommand = (username) => {
 };
 
 const handleEchoCommand = (text, username) => {
-    const outputHTML = `<div class="output-line">${username}@hacknet:~$ ${text}</div>`;
+    const outputHTML = `<div class="output-line">${text}</div>`;
     outputContainer.innerHTML += outputHTML;
 
     // Save the output text automatically
@@ -44,7 +44,7 @@ const handleEchoCommand = (text, username) => {
 };
 
 const handleGeneralInput = (inputText, username) => {
-    const outputHTML = `<div class="output-line">${username}@hacknet:~$ ${inputText}</div>`;
+    const outputHTML = `<div class="output-line">${username}@sda-net:~$ ${inputText}</div>`;
     outputContainer.innerHTML += outputHTML;
 
     // Save the output text automatically
@@ -78,7 +78,7 @@ const handleKeyPress = (event, username) => {
         } else if (command === "/help") {
             handleHelpCommand();
         } else if (command === "/date") {
-            handleDateCommand(username);
+            handleDateCommand();
         } else if (command === "/echo") {
             handleEchoCommand(args, username);
         } else {
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Save the username in localStorage
             localStorage.setItem("username", username);
 
-            userInputSpan.textContent = `${username}@hacknet:~$`;
+            userInputSpan.textContent = `${username}@sda-net:~$`;
             welcomeMessage.textContent = `Welcome ${username}!`;
             loginContainer.style.display = "none";
             terminal.style.display = "block";

@@ -3,13 +3,17 @@
 
 <head>
     <title>SDA.console</title>
-    <link rel="stylesheet" href="/web/styles/styles.css">
+    <link rel="stylesheet" href="/site/web/styles/styles.css">
 </head>
 
 <body>
+
     <div id="console">
         <div id="login-container">
-            <input type="text" id="login-input" placeholder="Enter your username" maxlength="20" />
+            <span id="prompt">>>></span>
+            <span id="user-input">user@sda-net:~$</span>
+            <input type="text" id="login-input" placeholder="Enter your username" maxlength="10" />
+            <span id="prompt">>>></span>
             <button id="login-button">Login</button>
         </div>
         <div id="terminal" style="display: none;">
@@ -22,14 +26,23 @@
             </div>
             <div id="input-container">
                 <span id="prompt">>>> </span>
-                <span id="user-input">user@hacknet:~$</span>
+                <span id="user-input">user@sda-net:~$</span>
                 <input type="text" id="input" maxlength="20" />
                 <div id="input-underline" style="width: 0%;"></div>
             </div>
         </div>
     </div>
+    
+    <div id="border-visualizer">
+        <div id="visualizer-container">
+            <canvas id="visualizer" width="400" height="200"></canvas>
+        </div>
+    </div>
 
-    <script src="/web/script/script.js"></script>
+    <audio id="audio" src="/files/audio/song.ogg" preload="auto" type="audio/ogg" loop ></audio>
+
+    <script src="/site/web/script/script.js"></script>
+    <script src="/site/web/script/audio.js"></script>
 
 </body>
 
