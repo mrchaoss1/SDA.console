@@ -5,7 +5,7 @@ const canvasContext = visualizer.getContext('2d');
 // Add border to the audio element
 audio.style.border = '2px solid lightgreen';
 
-audio.volume = 0.05;
+audio.volume = 1;
 audio.play();
 
 const audioContext = new AudioContext();
