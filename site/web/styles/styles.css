@@ -30,9 +30,30 @@ html, body {
   border-left: 2px solid lightgreen;
   padding: 10px;
   box-sizing: border-box;
+  
   display: flex;
   align-items: flex-end;
   justify-content: center;
+}
+
+#start-audio-button {
+  border: 2px solid lightgreen;
+  outline: none;
+  background-color: black;
+  color: #fff;
+  bottom: 0;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+#pause-audio-button {
+  border: 2px solid lightgreen;
+  outline: none;
+  background-color: black;
+  color: #fff;
+  bottom: 0;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 #visualizer-container {
@@ -44,10 +65,12 @@ html, body {
 }
 
 #visualizer {
-  margin-left: 100px;
+  margin-left: 10px;
+  margin-right: 30px;
   width: 100%;
   height: 100%;
   border: 2px solid lightgreen;
+  padding-right: 290px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -114,6 +137,13 @@ html, body {
   outline: none;
   background-color: black;
 }
+
+/* #music-activation-input {
+  background-color: black;
+  color: lightgreen;
+  border: none;
+  font-family: monospace;
+} */
 
 #input-underline {
   position: absolute;

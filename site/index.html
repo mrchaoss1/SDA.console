@@ -15,6 +15,11 @@
             <input type="text" id="login-input" placeholder="Enter your username" maxlength="10" />
             <span id="prompt">>>></span>
             <button id="login-button">Login</button>
+            <!-- <div id="music-activation-container">
+                <span id="music-activation-prompt">>>> </span>
+                <span id="music-activation-message">Do you want to activate music? (yes/no)</span>
+                <input type="text" id="music-activation-input" placeholder="Enter your response" />
+            </div> -->
         </div>
         <div id="terminal" style="display: none;">
             <div id="terminal-content">
@@ -32,18 +37,25 @@
             </div>
         </div>
     </div>
-    
+
     <div id="border-visualizer">
         <div id="visualizer-container">
+
+            <button id="start-audio-button">Start Audio</button>
+            <button id="pause-audio-button">Pause Audio</button>
+
             <canvas id="visualizer" width="400" height="200"></canvas>
+            
         </div>
     </div>
 
     <audio id="audio" autoplay loop >
-        <source src="./audio/song.mp3" type="audio/mp3">
+        <source src="audio/song.mp3" type="audio/mp3">
     </audio>
 
-    <button id="start-audio-button">Start Audio</button>
+    <!-- <div id="warn-audio">
+        <span>xz</span>
+    </div> -->
 
     <script src="./web/script/script.js"></script>
     <script src="./web/script/audio.js"></script>
