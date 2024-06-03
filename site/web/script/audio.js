@@ -58,7 +58,9 @@ const startAudioButton = document.getElementById('start-audio-button');
 const pauseAudioButton = document.getElementById('pause-audio-button');
 
 startAudioButton.addEventListener('click', () => {
-    audio.play();
+    audioContext.resume().then(() => {
+        audio.play();
+    });
 });
 
 pauseAudioButton.addEventListener('click', () => {
