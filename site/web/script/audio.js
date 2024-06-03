@@ -5,7 +5,7 @@ const canvasContext = visualizer.getContext('2d');
 // Add border to the audio element
 audio.style.border = '2px solid lightgreen';
 
-audio.volume = 1;
+audio.volume = 0.03;
 audio.play();
 
 const audioContext = new AudioContext();
@@ -35,19 +35,6 @@ function draw() {
         canvasContext.fillRect(x, visualizer.height - barHeight, barWidth, barHeight);
         x += barWidth;
     }
-
-    // Add border on the right side of the canvas (light green)
-    canvasContext.strokeStyle = 'rgba(144, 238, 144, 1)'; // Change this line for a lighter green color
-    canvasContext.lineWidth = 2;
-    canvasContext.beginPath();
-    canvasContext.moveTo(visualizer.width - 1, 0);
-    canvasContext.lineTo(visualizer.width - 1, visualizer.height);
-    canvasContext.stroke();
-
-    // Add text to the second border (bottom border)
-    canvasContext.fillStyle = 'lightgreen';
-    canvasContext.font = '20px monospace';
-    canvasContext.fillText('SDA.Console v1', 230, visualizer.height - 170); // Adjust position as needed
 }
 
 draw();
