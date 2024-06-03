@@ -1,40 +1,43 @@
+// audio.js
+
 const audio = document.getElementById('audio');
 const visualizer = document.getElementById('visualizer');
 const canvasContext = visualizer.getContext('2d');
+const startAudioButton = document.getElementById('start-audio-button');
 
-// Add border to the audio element
-audio.style.border = '2px solid lightgreen';
+startAudioButton.addEventListener('click', () => {
+    audio.play();
+    const audioContext = new AudioContext();
+    const audioSource = audioContext.createMediaElementSource(audio);
+    const analyser = audioContext.createAnalyser();
 
-audio.volume = 0.03;
-audio.play();
+    audioSource.connect(analyser);
+    analyser.connect(audioContext.destination);
 
-const audioContext = new AudioContext();
-const audioSource = audioContext.createMediaElementSource(audio);
-const analyser = audioContext.createAnalyser();
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
 
-audioSource.connect(analyser);
-analyser.connect(audioContext.destination);
+    function draw() {
+        requestAnimationFrame(draw);
+        analyser.getByteFrequencyData(dataArray);
 
-const bufferLength = analyser.frequencyBinCount;
-const dataArray = new Uint8Array(bufferLength);
+        canvasContext.clearRect(0, 0, visualizer.width, visualizer.height);
+        canvasContext.fillStyle = 'rgba(0, 0, 0, 1)'; // Set background color to black
 
-function draw() {
-    requestAnimationFrame(draw);
-    analyser.getByteFrequencyData(dataArray);
+        const barWidth = 1;
+        let x = 0;
 
-    canvasContext.clearRect(0, 0, visualizer.width, visualizer.height);
-    canvasContext.fillStyle = 'rgba(0, 0, 0, 1)'; // Set background color to black
-
-    const barWidth = 1;
-    let x = 0;
-
-    for (let i = 0; i < bufferLength; i++) {
-        const barHeight = dataArray[i] * 0.75;
-        // Set bar color to green
-        canvasContext.fillStyle = 'rgba(0, 255, 0, 0.4)';
-        canvasContext.fillRect(x, visualizer.height - barHeight, barWidth, barHeight);
-        x += barWidth;
+        for (let i = 0; i < bufferLength; i++) {
+            const barHeight = dataArray[i] * 0.75;
+            // Set bar color to green
+            canvasContext.fillStyle = 'rgba(0, 255, 0, 0.4)';
+            canvasContext.fillRect(x, visualizer.height - barHeight, barWidth, barHeight);
+            x += barWidth;
+        }
     }
-}
 
-draw();
+    draw();
+});
+
+audio.style.border = '2px solid lightgreen';
+audio.volume = 0.03;
