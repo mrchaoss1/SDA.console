@@ -135,3 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Retrieve the saved output text when the page is reloaded
 window.addEventListener("load", retrieveSavedOutputText);
+
+
+// commands shit

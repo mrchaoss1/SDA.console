@@ -1,4 +1,4 @@
-// audio.js
+// audio.js i kill myself
 
 const audio = document.getElementById('audio');
 const visualizer = document.getElementById('visualizer');
