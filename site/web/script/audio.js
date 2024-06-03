@@ -4,21 +4,31 @@ const canvasContext = visualizer.getContext('2d');
 
 // Add border to the audio element
 audio.style.border = '2px solid lightgreen';
-
 audio.volume = 0.1;
 
-const audioContext = new AudioContext();
-const audioSource = audioContext.createMediaElementSource(audio);
-const analyser = audioContext.createAnalyser();
+let audioContext;
+let audioSource;
+let analyser;
+let dataArray;
+let bufferLength;
 
-audioSource.connect(analyser);
-analyser.connect(audioContext.destination);
+// Function to initialize audio context and related nodes
+function initAudio() {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    audioSource = audioContext.createMediaElementSource(audio);
+    analyser = audioContext.createAnalyser();
 
-const bufferLength = analyser.frequencyBinCount;
-const dataArray = new Uint8Array(bufferLength);
+    audioSource.connect(analyser);
+    analyser.connect(audioContext.destination);
+
+    bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+}
 
 function draw() {
     requestAnimationFrame(draw);
+    if (!analyser) return; // Check if analyser is initialized
+
     analyser.getByteFrequencyData(dataArray);
 
     canvasContext.clearRect(0, 0, visualizer.width, visualizer.height);
@@ -56,7 +66,12 @@ const startAudioButton = document.getElementById('start-audio-button');
 const pauseAudioButton = document.getElementById('pause-audio-button');
 
 startAudioButton.addEventListener('click', () => {
-    audio.play();
+    if (!audioContext) {
+        initAudio(); // Initialize audio context if not already initialized
+    }
+    audioContext.resume().then(() => {
+        audio.play();
+    });
 });
 
 pauseAudioButton.addEventListener('click', () => {
