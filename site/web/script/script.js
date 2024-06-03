@@ -14,6 +14,7 @@ const handleClearCommand = () => {
 
 const handleHelpCommand = () => {
     const outputHTML = `
+        <p></p>
         <div class="output-line">Available commands:</div>
         <p></p>
         <div class="output-line">- /clear: Clears the console output</div>
